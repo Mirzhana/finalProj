@@ -7,13 +7,15 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 
 import kotlinx.android.synthetic.main.activity_main.*
 
 import mirzhana.com.afinal.model.Contact
 import kotlin.concurrent.thread
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
+
     var dataset: ArrayList<Contact> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         loadContacts(myDB!!)
 
-        fab.setOnClickListener {
-            startActivityForResult(Intent(this, AddContactActivity::class.java), 1)
-
-        }
+        fab.setOnClickListener(this)
 
         search.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(editable: Editable?) {
@@ -40,9 +39,14 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
-
-
     }
+
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.fab -> onFabClicked()
+        }
+    }
+
     fun filter(text: String){
         val filteredContacts: ArrayList<Contact> = ArrayList()
 
@@ -52,9 +56,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         dataset = filteredContacts
-
-
-
     }
 
      fun loadContacts(myDB: ContactDatabase) {
@@ -92,4 +93,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun onFabClicked() {
+        startActivityForResult(Intent(this, AddContactActivity::class.java), 1)
+    }
 }
