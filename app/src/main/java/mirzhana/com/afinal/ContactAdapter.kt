@@ -10,37 +10,41 @@ import kotlinx.android.synthetic.main.list_item.view.*
 import java.util.ArrayList
 import mirzhana.com.afinal.model.Contact
 
-class ContactAdapter(var context: Context, var dataset: ArrayList<Contact>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+class ContactAdapter(
+    var context: Context, 
+    var dataset: ArrayList<Contact>
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        return ContactViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item, parent, false))
+    override fun onCreateViewHolder(
+        parent: ViewGroup, 
+        viewType: Int
+    ): RecyclerView.ViewHolder = ContactViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
+    )
 
-    }
+    override fun getItemCount(): Int = dataset.size
 
-    override fun getItemCount(): Int {
-        return dataset.size
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder, 
+        position: Int
+    ) {
         var contact = dataset[position]
         holder.itemView.nameText.text = contact.name
         holder.itemView.mobileText.text = contact.mobile
-
-
     }
+
     inner class ContactViewHolder(view: View): RecyclerView.ViewHolder(view){
         init {
-
             view.card.setOnClickListener{
-                context.startActivity(Intent(context, ContactActivity::class.java).putExtra("contact",dataset[adapterPosition]))
+                context.startActivity(
+                    Intent(context, ContactActivity::class.java).putExtra("contact",dataset[adapterPosition])
+                )
             }
         }
-
     }
 
-     public fun filterList(filteredNames: ArrayList<Contact>){
+    fun filterList(filteredNames: ArrayList<Contact>){
         this.dataset = filteredNames
         notifyDataSetChanged()
-
     }
 }

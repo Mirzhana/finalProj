@@ -6,8 +6,9 @@ import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import mirzhana.com.afinal.model.Contact
 
-@Database(entities = arrayOf(Contact::class), version=1)
+@Database(entities = arrayOf(Contact::class), version = 1)
 abstract class ContactDatabase: RoomDatabase(){
+
     abstract fun contactDao(): ContactDAO
 
     companion object {
